@@ -6,6 +6,8 @@ import SEO from '../components/seo'
 const IndexPage = ({ data }) => {
     const nodes = data.allWordpressPost.nodes
 
+    const a = ''
+
     return (
         <Layout>
             <SEO title="Home" />
