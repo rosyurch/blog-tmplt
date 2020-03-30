@@ -9,8 +9,9 @@ const Ul = styled.ul`
     margin: 0;
 `
 
-const IndexPage = ({ data }) => {
+const PostsPage = ({ data, pageContext }) => {
     const nodes = data.allWordpressPost.nodes
+    const { pageNumber, hasNextPage } = pageContext
 
     return (
         <Layout>
@@ -29,14 +30,23 @@ const IndexPage = ({ data }) => {
                     </li>
                 ))}
             </Ul>
-            <Link to="/posts/2">Page 2 &#8594;</Link>
+            <div>
+                <Link to={pageNumber === 2 ? '/' : `/posts/${pageNumber - 1}`}>
+                    &#8592;Page {pageNumber - 1}
+                </Link>{' '}
+                {hasNextPage && (
+                    <Link to={`/posts/${pageNumber + 1}`}>
+                        Page {pageNumber + 1} &#8594;
+                    </Link>
+                )}
+            </div>
         </Layout>
     )
 }
 
 export const query = graphql`
-    query IndexPosts {
-        allWordpressPost(limit: 3) {
+    query PagePosts($skip: Int!, $limit: Int!) {
+        allWordpressPost(limit: $limit, skip: $skip) {
             nodes {
                 wordpress_id
                 title
@@ -48,4 +58,4 @@ export const query = graphql`
     }
 `
 
-export default IndexPage
+export default PostsPage

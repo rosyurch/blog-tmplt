@@ -38,7 +38,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         })
     })
 
-    // // TODO pagination
-    // const PageList = path.resolve('./src/templates/PageList.js')
-    // createPage({ path: `/posts`, component: PageList })
+    const numOfPosts = blogPosts.length
+    const postsPerPage = 3
+    const numOfPages = Math.ceil(numOfPosts / postsPerPage)
+    const PageList = path.resolve('./src/templates/PostsPage.js')
+    Array.from({ length: numOfPages }).forEach((page, index) => {
+        const pageNumber = index + 1
+        if (index === 0) return
+        createPage({
+            path: `/posts/${pageNumber}`,
+            component: PageList,
+            context: {
+                skip: index * postsPerPage,
+                limit: postsPerPage,
+                pageNumber,
+                hasNextPage: pageNumber < numOfPages,
+            },
+        })
+    })
 }
