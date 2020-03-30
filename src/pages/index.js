@@ -1,21 +1,44 @@
-import React from "react"
-import { Link } from "gatsby"
+import React from 'react'
+import { Link, graphql } from 'gatsby'
+import Layout from '../components/layout'
+import SEO from '../components/seo'
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+const IndexPage = ({ data }) => {
+    const nodes = data.allWordpressPost.nodes
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+    return (
+        <Layout>
+            <SEO title="Home" />
+            <ul>
+                {nodes.map(post => (
+                    <li key={post.wordpress_id}>
+                        <Link to={`/post/${post.slug}`}>
+                            <h3
+                                dangerouslySetInnerHTML={{ __html: post.title }}
+                            />
+                        </Link>
+                        <div
+                            dangerouslySetInnerHTML={{ __html: post.excerpt }}
+                        ></div>
+                    </li>
+                ))}
+            </ul>
+        </Layout>
+    )
+}
+
+export const query = graphql`
+    query AllPosts {
+        allWordpressPost {
+            nodes {
+                wordpress_id
+                title
+                link
+                slug
+                excerpt
+            }
+        }
+    }
+`
 
 export default IndexPage

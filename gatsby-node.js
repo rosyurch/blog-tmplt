@@ -38,7 +38,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         })
     })
 
-    // TODO pagination
-    const PageList = path.resolve('./src/templates/PageList.js')
-    createPage({ path: `/posts`, component: PageList })
+    // // TODO pagination
+    // const PageList = path.resolve('./src/templates/PageList.js')
+    // createPage({ path: `/posts`, component: PageList })
 }
