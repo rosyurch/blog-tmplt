@@ -60,7 +60,7 @@
     }
   },
   "lint-staged": {
-    "/src/**/*.js, !(./docs/**/*.js)": [
+    "src/**/*.js": [
       "eslint --max-warnings=0 --fix",
       "prettier --write"
     ]
